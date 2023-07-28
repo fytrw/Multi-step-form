@@ -49,6 +49,10 @@ const Form = ({step, setStep}) => {
     const [emailError, setEmailError] = useState(false)
     const [phoneNumber, setPhoneNumber] = useState('')
     const [phoneNumberError, setPhoneNumberError] = useState(false)
+    const validateEmail = (email) => {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+      };
     const handleNext = () => {
         if(step === 1) {
             if(name === '') {
@@ -56,17 +60,17 @@ const Form = ({step, setStep}) => {
             } else {
                 setNameError(false)
             }
-            if(email === '') {
-                setEmailError(true)
-            } else {
-                setEmailError(false)
-            }
             if(phoneNumber === '') {
                 setPhoneNumberError(true)
             } else {
                 setPhoneNumberError(false)
             }
-            if(name !== '' && email !== '' && phoneNumber !== '') {
+            if(!validateEmail(email)) {
+                setEmailError(true)
+            } else {
+                setEmailError(false)
+            }
+            if(name !== '' && email !== '' && phoneNumber !== '' && validateEmail(email)) {
                 setStep(step + 1)
             }
         } else {
